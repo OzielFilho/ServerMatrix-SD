@@ -12,27 +12,33 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Client Handler Init in: (" + this.getId() + "):" + clientSocket.getInetAddress());
+        System.out.println("Client Handler Init in: (" + this.threadId() + "):");
         try {
+
             ObjectInputStream inputDataClient = new ObjectInputStream(clientSocket.getInputStream());
             ObjectOutputStream outDataClient = new ObjectOutputStream(clientSocket.getOutputStream());
-            int[] parametersClient = (int[]) inputDataClient.readObject();
+
+            String[] parametersClient = (String[]) inputDataClient.readObject();
+
+            if (parametersClient == null) {
+                outDataClient.writeObject("Parameters Empty");
+            }
             if (parametersClient.length != 2) {
-                System.out.println("Problem in parameters format: <int> <int>");
+                System.out.println("Problem in parameters format: <Matrix> <Matrix>");
                 return;
             }
-            Matrix matrix1 = new Matrix(parametersClient[0], parametersClient[1]);
-            matrix1.randomize(0, 10);
-            Matrix matrix2 = new Matrix(parametersClient[0], parametersClient[1]);
-            matrix2.randomize(0, 10);
+            String parameter1 = parametersClient[0];
+            String parameter2 = parametersClient[0];
+            Matrix matrix1 = Matrix.fromString(parameter1);
+            Matrix matrix2 = Matrix.fromString(parameter2);
 
             Matrix multiplyMatrix = matrix1.multiply(matrix2);
 
             outDataClient.writeObject(multiplyMatrix.toString());
 
-            Thread.sleep(15000);
+            Thread.sleep(500);
 
-            System.out.println("Client Handler End");
+            System.out.println("Client (" + this.threadId() + ") Handler End");
 
             clientSocket.close();
         } catch (IOException e) {

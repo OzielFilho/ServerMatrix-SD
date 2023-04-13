@@ -11,13 +11,19 @@ public class Client {
 
             ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
             ObjectInputStream in = new ObjectInputStream(client.getInputStream());
-            int[] typeMatrix = { 2, 2 };
+
+            Matrix matrix1 = new Matrix(2, 2);
+            matrix1.randomize(0, 10);
+            Matrix matrix2 = new Matrix(2, 2);
+            matrix2.randomize(0, 10);
+
+            String[] typeMatrix = { matrix1.toString(), matrix2.toString() };
             out.writeObject(typeMatrix);
+
             String matrix = (String) in.readObject();
             System.out.println("Server response: \n" + matrix);
 
             client.close();
-            System.out.println("Client END");
 
         } catch (Exception e) {
             System.out.println("Error " + e);

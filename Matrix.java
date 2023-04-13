@@ -80,4 +80,20 @@ public class Matrix {
 
         return sb.toString();
     }
+
+    public static Matrix fromString(String str) {
+        String[] rows = str.split("\n");
+        int numRows = rows.length;
+        int numCols = rows[0].split("\t").length;
+        Matrix matrix = new Matrix(numRows, numCols);
+
+        for (int i = 0; i < numRows; i++) {
+            String[] values = rows[i].split("\t");
+            for (int j = 0; j < numCols; j++) {
+                matrix.setValue(i, j, Integer.parseInt(values[j]));
+            }
+        }
+
+        return matrix;
+    }
 }

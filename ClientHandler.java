@@ -12,7 +12,7 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
-        System.out.println("Client Handler Init in: (" + this.threadId() + "):");
+        System.out.println("Client Handler Init in: (" + this.getId() + "):");
         try {
 
             ObjectInputStream inputDataClient = new ObjectInputStream(clientSocket.getInputStream());
@@ -28,7 +28,11 @@ public class ClientHandler extends Thread {
                 return;
             }
             String parameter1 = parametersClient[0];
-            String parameter2 = parametersClient[0];
+            String parameter2 = parametersClient[1];
+
+            System.out.println("Matrix 1:\n"+parameter1);
+            System.out.println("Matrix 2:\n"+parameter2);
+
             Matrix matrix1 = Matrix.fromString(parameter1);
             Matrix matrix2 = Matrix.fromString(parameter2);
 
@@ -38,7 +42,7 @@ public class ClientHandler extends Thread {
 
             Thread.sleep(500);
 
-            System.out.println("Client (" + this.threadId() + ") Handler End");
+            System.out.println("Client (" + this.getId() + ") Handler End");
 
             clientSocket.close();
         } catch (IOException e) {

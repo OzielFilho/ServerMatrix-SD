@@ -1,4 +1,5 @@
 
+import java.util.List;
 import java.util.Random;
 
 public class Matrix {
@@ -95,5 +96,18 @@ public class Matrix {
         }
 
         return matrix;
+    }
+    public static Matrix fromArray(List<Integer> arr, int numRows, int numCols) {
+        Matrix mat = new Matrix(numRows, numCols);
+        int index = 0;
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < numCols; j++) {
+                mat.setValue(i, j, arr.get(index));
+                index++;
+            }
+        }
+        return mat;
+    }
+    public class fromArray {
     }
 }
